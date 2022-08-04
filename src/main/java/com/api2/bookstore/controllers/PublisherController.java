@@ -1,9 +1,14 @@
 package com.api2.bookstore.controllers;
 
+import com.api2.bookstore.dtos.PublisherDto;
+import com.api2.bookstore.models.PublisherModel;
 import com.api2.bookstore.services.PublisherService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -14,5 +19,15 @@ public class PublisherController {
 
     public PublisherController(PublisherService publisherService) {
         this.publisherService = publisherService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> savePublisher(@RequestBody @Valid PublisherDto publisherDto) {
+        if(publisherService.existsByName(publisherDto.getName())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Publisher already exists");
+        }
+        var publisherModel = new PublisherModel();
+        BeanUtils.copyProperties(publisherDto, publisherModel);
+        return ResponseEntity.status(HttpStatus.CREATED).body(publisherService.save(publisherModel));
     }
 }
