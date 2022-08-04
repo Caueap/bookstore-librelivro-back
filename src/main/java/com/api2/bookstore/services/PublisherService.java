@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PublisherService {
@@ -27,5 +29,9 @@ public class PublisherService {
 
     public List<PublisherModel> findAll() {
         return publisherRepository.findAll();
+    }
+
+    public Optional<PublisherModel> findById(UUID id) {
+        return publisherRepository.findById(id);
     }
 }

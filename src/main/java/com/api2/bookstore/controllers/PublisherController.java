@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -35,5 +37,21 @@ public class PublisherController {
     @GetMapping
     public ResponseEntity<List<PublisherModel>> getAllPublishers() {
         return ResponseEntity.status(HttpStatus.OK).body(publisherService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> GetOnePublisher(@PathVariable(value = "id") UUID id) {
+        Optional<PublisherModel> publisherModelOptional = publisherService.findById(id);
+        if (!publisherModelOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Publisher not found");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(publisherModelOptional.get());
+
+
+
+
+
+
+
     }
 }
