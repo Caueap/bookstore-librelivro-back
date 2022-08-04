@@ -5,6 +5,7 @@ import com.api2.bookstore.repositories.PublisherRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class PublisherService {
@@ -22,5 +23,9 @@ public class PublisherService {
 
     public boolean existsByName(String name) {
         return publisherRepository.existsByName(name);
+    }
+
+    public List<PublisherModel> findAll() {
+        return publisherRepository.findAll();
     }
 }
