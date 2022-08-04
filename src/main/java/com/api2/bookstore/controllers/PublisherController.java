@@ -40,18 +40,22 @@ public class PublisherController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> GetOnePublisher(@PathVariable(value = "id") UUID id) {
+    public ResponseEntity<Object> getOnePublisher(@PathVariable(value = "id") UUID id) {
         Optional<PublisherModel> publisherModelOptional = publisherService.findById(id);
         if (!publisherModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Publisher not found");
         }
         return ResponseEntity.status(HttpStatus.OK).body(publisherModelOptional.get());
-
-
-
-
-
-
-
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deletePublisher(@PathVariable(value = "id") UUID id) {
+        Optional<PublisherModel> publisherModelOptional = publisherService.findById(id);
+        if (!publisherModelOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Publisher not found");
+        }
+        publisherService.delete(publisherModelOptional.get());
+        return ResponseEntity.status(HttpStatus.OK).body("Publisher deleted");
+    }
+
 }
