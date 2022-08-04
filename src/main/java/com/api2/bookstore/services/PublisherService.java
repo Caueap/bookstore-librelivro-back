@@ -34,4 +34,9 @@ public class PublisherService {
     public Optional<PublisherModel> findById(UUID id) {
         return publisherRepository.findById(id);
     }
+
+    @Transactional
+    public void delete(PublisherModel publisherModel) {
+        publisherRepository.delete(publisherModel);
+    }
 }
