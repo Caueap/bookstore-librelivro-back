@@ -26,6 +26,12 @@ public class ClientModel implements Serializable {
     @Column(nullable = false)
     private LocalDateTime birthDate;
 
+    @Column(nullable = false)
+    private String city;
+
+    @Column(nullable = false)
+    private String address;
+
     public UUID getId() {
         return id;
     }
@@ -64,5 +70,21 @@ public class ClientModel implements Serializable {
 
     public void setBirthDate(LocalDateTime birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
