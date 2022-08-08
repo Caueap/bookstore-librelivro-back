@@ -1,13 +1,14 @@
 package com.api2.bookstore.dtos;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class ClientDto {
 
     @NotBlank
     private String name;
 
-    @NotBlank
+    @NotNull
     private int age;
 
     @NotBlank
