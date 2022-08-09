@@ -30,4 +30,9 @@ public class ClientService {
     public Optional<ClientModel> findById(UUID id) {
         return clientRepository.findById(id);
     }
+
+    @Transactional
+    public void delete(ClientModel clientModel) {
+        clientRepository.delete(clientModel);
+    }
 }
