@@ -2,6 +2,7 @@ package com.api2.bookstore.dtos;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 public class ClientDto {
 
@@ -19,6 +20,17 @@ public class ClientDto {
 
     @NotBlank
     private String address;
+
+    @NotNull
+    private LocalDateTime birthDate;
+
+    public LocalDateTime getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDateTime birthDate) {
+        this.birthDate = birthDate;
+    }
 
     public String getName() {
         return name;

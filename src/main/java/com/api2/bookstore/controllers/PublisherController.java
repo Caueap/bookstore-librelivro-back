@@ -65,9 +65,6 @@ public class PublisherController {
         if (!publisherModelOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Publisher not found");
         }
-        if(publisherService.existsByName(publisherDto.getName())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Publisher already exists");
-        }
         var publisherModel = new PublisherModel();
         BeanUtils.copyProperties(publisherDto, publisherModel);
         publisherModel.setId(publisherModelOptional.get().getId());
