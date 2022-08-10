@@ -1,5 +1,6 @@
 package com.api2.bookstore.services;
 
+import com.api2.bookstore.dtos.ClientDto;
 import com.api2.bookstore.models.ClientModel;
 import com.api2.bookstore.repositories.ClientRepository;
 import org.springframework.stereotype.Service;
@@ -35,4 +36,9 @@ public class ClientService {
     public void delete(ClientModel clientModel) {
         clientRepository.delete(clientModel);
     }
+
+    public boolean existsByEmail(String email) {
+        return clientRepository.existsByEmail(email);
+    }
+
 }
