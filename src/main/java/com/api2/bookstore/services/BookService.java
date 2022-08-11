@@ -5,6 +5,7 @@ import com.api2.bookstore.repositories.BookRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class BookService {
@@ -22,5 +23,9 @@ public class BookService {
     @Transactional
     public BookModel save(BookModel bookModel) {
         return bookRepository.save(bookModel);
+    }
+
+    public List<BookModel> findAll() {
+        return bookRepository.findAll();
     }
 }
