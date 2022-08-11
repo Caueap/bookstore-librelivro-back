@@ -35,6 +35,7 @@ public class BookService {
         return bookRepository.findById(id);
     }
 
+    @Transactional
     public void delete(BookModel bookModel) {
         bookRepository.delete(bookModel);
     }
