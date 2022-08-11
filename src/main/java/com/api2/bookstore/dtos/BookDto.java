@@ -1,6 +1,7 @@
 package com.api2.bookstore.dtos;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class BookDto {
@@ -11,7 +12,7 @@ public class BookDto {
     @NotBlank
     private String author;
 
-    @NotBlank
+    @NotNull
     private LocalDateTime releaseDate;
 
     @NotBlank
