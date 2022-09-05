@@ -1,27 +1,65 @@
 package com.api2.bookstore.controllers;
 
-import com.api2.bookstore.dtos.BookDto;
-import com.api2.bookstore.dtos.PublisherDto;
-import com.api2.bookstore.models.BookModel;
-import com.api2.bookstore.models.ClientModel;
-import com.api2.bookstore.models.PublisherModel;
+import com.api2.bookstore.dtos.bookdto.BookRequestDto;
+import com.api2.bookstore.dtos.bookdto.BookResponseDto;
 import com.api2.bookstore.services.BookService;
-import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/api2/book")
 public class BookController {
 
-    final BookService bookService;
+    private BookService bookService;
+
+    @Autowired
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public BookResponseDto create(@RequestBody @Valid BookRequestDto bookRequestDto) {
+        return bookService.create(bookRequestDto);
+    }
+
+    @GetMapping("/{id}")
+    public BookResponseDto getById(@PathVariable Long id) {
+        return bookService.getById(id);
+    }
+
+    @GetMapping
+    public List<BookResponseDto> getAllBooks() {
+        return bookService.getAllBooks();
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        bookService.delete(id);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public BookResponseDto update(@PathVariable Long id, @RequestBody @Valid BookRequestDto bookToUpdtateDto) {
+        return bookService.update(id, bookToUpdtateDto);
+    }
+
+    //Código de Henrique
+    /*@PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Object> create(@RequestBody @Valid BookRequestDto bookRequestDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(bookService.create(bookRequestDto));
+    }*/
+
+    //Código da Michelle Brito
+    /*final BookService bookService;
 
     public BookController(BookService bookService) {
         this.bookService = bookService;
@@ -72,7 +110,7 @@ public class BookController {
         BeanUtils.copyProperties(bookDto, bookModel);
         bookModel.setId(bookModelOptional.get().getId());
         return ResponseEntity.status(HttpStatus.OK).body(bookService.save(bookModel));
-    }
+    }*/
 
 
 }

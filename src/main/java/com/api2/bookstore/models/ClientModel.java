@@ -1,18 +1,19 @@
 package com.api2.bookstore.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import javax.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.List;
 
+@Data
 @Entity
 @Table(name = "TB_CLIENT")
-public class ClientModel implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class ClientModel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -24,7 +25,8 @@ public class ClientModel implements Serializable {
     private String email;
 
     @Column(nullable = false)
-    private LocalDateTime birthDate;
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    private LocalDate birthDate;
 
     @Column(nullable = false)
     private String city;
@@ -33,60 +35,8 @@ public class ClientModel implements Serializable {
     private String address;
 
 
-    public LocalDateTime getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDateTime birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }
+
+

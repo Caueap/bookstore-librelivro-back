@@ -1,30 +1,55 @@
 package com.api2.bookstore.controllers;
 
-import com.api2.bookstore.dtos.ClientDto;
-
-import com.api2.bookstore.models.ClientModel;
+import com.api2.bookstore.dtos.clientdto.ClientDto;
+import com.api2.bookstore.dtos.clientdto.ClientMessageDto;
 import com.api2.bookstore.services.ClientService;
-import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/api2/client")
 public class ClientController {
 
-    final ClientService clientService;
+    private ClientService clientService;
 
+    @Autowired
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ClientMessageDto create(@RequestBody @Valid ClientDto clientToCreateDto) {
+        return clientService.create(clientToCreateDto);
+    }
+
+    @GetMapping
+    public List<ClientDto> getAll() {
+        return clientService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public ClientDto getById(@PathVariable Long id) {
+        return clientService.getById(id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id) {
+        clientService.delete(id);
+    }
+
+    @PutMapping("/{id}")
+    public ClientMessageDto update(@PathVariable Long id, @RequestBody @Valid ClientDto clientToUpdateDto) {
+        return clientService.update(id, clientToUpdateDto);
+    }
+
+    /*@PostMapping
     public ResponseEntity<Object> saveClient(@RequestBody @Valid ClientDto clientDto) {
         if(clientService.existsByEmail(clientDto.getEmail())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Email already exists");
@@ -69,5 +94,5 @@ public class ClientController {
         var clientModel = new ClientModel();
         BeanUtils.copyProperties(clientDto, clientModel);
         return ResponseEntity.status(HttpStatus.OK).body(clientService.save(clientModel));
-    }
+    }*/
 }

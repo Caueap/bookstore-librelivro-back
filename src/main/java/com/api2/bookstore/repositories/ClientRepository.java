@@ -3,13 +3,17 @@ package com.api2.bookstore.repositories;
 import com.api2.bookstore.models.ClientModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.UUID;
+import java.util.Optional;
 
 @Repository
-public interface ClientRepository extends JpaRepository<ClientModel, UUID> {
+public interface ClientRepository extends JpaRepository<ClientModel, Long> {
 
-    boolean existsByEmail(String email);
+    Optional<ClientModel> findByEmail(String email);
+
+    Optional<ClientModel> findByName(String name);
+
+
+    //boolean existsByEmail(String email);
 
 
 }
