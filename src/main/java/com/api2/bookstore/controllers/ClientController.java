@@ -4,6 +4,8 @@ import com.api2.bookstore.dtos.clientdto.ClientDto;
 import com.api2.bookstore.dtos.clientdto.ClientMessageDto;
 import com.api2.bookstore.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,8 +31,8 @@ public class ClientController {
     }
 
     @GetMapping
-    public List<ClientDto> getAll() {
-        return clientService.getAll();
+    public Page<ClientDto> getAll(Pageable pageable) {
+        return clientService.getAll(pageable);
     }
 
     @GetMapping("/{id}")

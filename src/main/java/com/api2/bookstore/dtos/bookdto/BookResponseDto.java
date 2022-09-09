@@ -28,6 +28,10 @@ public class BookResponseDto {
 
     private String isbn;
 
+    private int amount;
+
+    private int rentedAmount;
+
     private PublisherModel publisherModel;
 
 

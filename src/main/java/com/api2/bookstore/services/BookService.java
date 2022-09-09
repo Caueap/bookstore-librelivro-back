@@ -2,14 +2,14 @@ package com.api2.bookstore.services;
 
 import com.api2.bookstore.dtos.bookdto.BookRequestDto;
 import com.api2.bookstore.dtos.bookdto.BookResponseDto;
-import com.api2.bookstore.dtos.publisherdto.PublisherDto;
 import com.api2.bookstore.exception.bookexception.BookNotFoundException;
 import com.api2.bookstore.mappers.BookMapper;
 import com.api2.bookstore.models.BookModel;
 import com.api2.bookstore.models.PublisherModel;
 import com.api2.bookstore.repositories.BookRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
@@ -25,10 +25,12 @@ public class BookService {
 
     private PublisherService publisherService;
 
+
     @Autowired
     public BookService(BookRepository bookRepository, PublisherService publisherService) {
         this.bookRepository = bookRepository;
         this.publisherService = publisherService;
+
     }
 
     public BookResponseDto create(@NotNull BookRequestDto bookRequestDto) {
@@ -42,14 +44,12 @@ public class BookService {
     public BookResponseDto getById(Long id) {
         BookModel foundBookModel = verifyAndGetIfExists(id);
         return bookMapper.toDTO(foundBookModel);
-
     }
 
-    public List<BookResponseDto> getAllBooks() {
-        return bookRepository.findAll()
-                .stream()
-                .map(bookMapper::toDTO)
-                .collect(Collectors.toList());
+    public Page<BookResponseDto> getAllBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable)
+                .map(bookMapper::toDTO);
+
     }
 
     public void delete(Long id) {
@@ -65,14 +65,12 @@ public class BookService {
         return bookMapper.toDTO(updatedBook);
     }
 
-
-
-
     public BookModel verifyAndGetIfExists(Long id) {
         BookModel foundBookModel = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
         return foundBookModel;
     }
+
 
 
 

@@ -1,8 +1,12 @@
 package com.api2.bookstore.controllers;
 
+import com.api2.bookstore.dtos.rentaldto.RentalDeliveryDto;
+import com.api2.bookstore.dtos.rentaldto.RentalReqDelDto;
 import com.api2.bookstore.dtos.rentaldto.RentalRequestDto;
 import com.api2.bookstore.dtos.rentaldto.RentalResponseDto;
 import com.api2.bookstore.services.RentalService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,13 +36,19 @@ public class RentalController {
     }
 
     @GetMapping
-    public List<RentalResponseDto> getAll() {
-        return rentalService.getAll();
+    public Page<RentalResponseDto> getAll(Pageable pageable) {
+        return rentalService.getAll(pageable);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         rentalService.delete(id);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public RentalDeliveryDto delivery(@PathVariable Long id, @RequestBody @Valid RentalReqDelDto rentalReqDelDto) {
+        return rentalService.delivery(id, rentalReqDelDto);
     }
 }

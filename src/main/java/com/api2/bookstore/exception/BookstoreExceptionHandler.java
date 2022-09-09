@@ -11,6 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,6 +24,14 @@ public class BookstoreExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException exception) {
         return buildResponseEntity(
                 HttpStatus.NOT_FOUND,
+                exception.getMessage(),
+                Collections.singletonList(exception.getMessage()));
+    }
+
+    @ExceptionHandler(PersistenceException.class)
+    public ResponseEntity<Object> handlePersistenceException(PersistenceException exception) {
+        return buildResponseEntity(
+                HttpStatus.BAD_REQUEST,
                 exception.getMessage(),
                 Collections.singletonList(exception.getMessage()));
     }

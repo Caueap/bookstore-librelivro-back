@@ -4,6 +4,8 @@ import com.api2.bookstore.dtos.bookdto.BookRequestDto;
 import com.api2.bookstore.dtos.bookdto.BookResponseDto;
 import com.api2.bookstore.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +37,8 @@ public class BookController {
     }
 
     @GetMapping
-    public List<BookResponseDto> getAllBooks() {
-        return bookService.getAllBooks();
+    public Page<BookResponseDto> getAllBooks(Pageable pageable) {
+        return bookService.getAllBooks(pageable);
     }
 
     @DeleteMapping("/{id}")

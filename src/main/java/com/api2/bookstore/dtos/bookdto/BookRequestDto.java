@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -28,6 +30,9 @@ public class BookRequestDto {
 
     @NotBlank
     private String isbn;
+
+    @NotNull
+    private int amount;
 
     @NotNull
     private Long publisherModelId;

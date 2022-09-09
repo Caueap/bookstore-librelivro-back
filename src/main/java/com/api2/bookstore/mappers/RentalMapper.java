@@ -1,5 +1,7 @@
 package com.api2.bookstore.mappers;
 
+import com.api2.bookstore.dtos.rentaldto.RentalDeliveryDto;
+import com.api2.bookstore.dtos.rentaldto.RentalReqDelDto;
 import com.api2.bookstore.dtos.rentaldto.RentalRequestDto;
 import com.api2.bookstore.dtos.rentaldto.RentalResponseDto;
 import com.api2.bookstore.models.RentalModel;
@@ -15,5 +17,15 @@ public interface RentalMapper {
 
     RentalModel toModel(RentalResponseDto rentalResponseDto);
 
+    RentalModel toModel(RentalReqDelDto rentalReqDelDto);
+
     RentalResponseDto toDTO(RentalModel rentalModel);
+
+    RentalDeliveryDto toDT(RentalModel rentalModel);
+
+
+
+
+
+
 }

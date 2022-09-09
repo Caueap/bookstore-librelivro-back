@@ -2,7 +2,6 @@ package com.api2.bookstore.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -23,13 +22,17 @@ public class RentalModel {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate expectedDeliveryDate;
 
-
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate deliveryDate;
+
+    private String status;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     private BookModel bookModel;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     private ClientModel clientModel;
+
+
 }
+

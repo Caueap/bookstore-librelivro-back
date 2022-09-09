@@ -2,6 +2,8 @@ package com.api2.bookstore.controllers;
 
 import com.api2.bookstore.dtos.publisherdto.PublisherDto;
 import com.api2.bookstore.services.PublisherService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +35,8 @@ public class PublisherController {
 
     @GetMapping
     //Novamente, não precisa do ResponseStatus pq o get, por padrão, já retorna um código 200 ok
-    public List<PublisherDto> findAll() {
-        return publisherService.getAll();
+    public Page<PublisherDto> findAll(Pageable pageable) {
+        return publisherService.getAll(pageable);
     }
 
     @DeleteMapping("/{id}")

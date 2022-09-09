@@ -15,7 +15,7 @@ public class BookModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)
@@ -25,8 +25,14 @@ public class BookModel {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate releaseDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String isbn;
+
+    @Column(nullable = false)
+    private int amount;
+
+    @Column(nullable = false)
+    private int rentedAmount;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     private PublisherModel publisherModel;

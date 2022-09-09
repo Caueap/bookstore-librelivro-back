@@ -1,20 +1,17 @@
 package com.api2.bookstore.services;
 
-import com.api2.bookstore.dtos.clientdto.ClientDto;
-import com.api2.bookstore.dtos.clientdto.ClientMessageDto;
 import com.api2.bookstore.dtos.publisherdto.PublisherDto;
-import com.api2.bookstore.exception.clientexception.ClientNotFoundException;
 import com.api2.bookstore.exception.publexception.PublisherAlreadyExistsException;
 import com.api2.bookstore.exception.publexception.PublisherNotFoundException;
 import com.api2.bookstore.mappers.PublisherMapper;
-import com.api2.bookstore.models.ClientModel;
 import com.api2.bookstore.models.PublisherModel;
 import com.api2.bookstore.repositories.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,11 +39,10 @@ public class PublisherService {
         return publisherMapper.toDTO(foundPublisherModel);
     }
 
-    public List<PublisherDto> getAll() {
-        return publisherRepository.findAll()
-                .stream()
-                .map(publisherMapper::toDTO)
-                .collect(Collectors.toList());
+    public Page<PublisherDto> getAll(Pageable pageable) {
+        return publisherRepository.findAll(pageable)
+                .map(publisherMapper::toDTO);
+
     }
 
     public void delete(Long id) {
