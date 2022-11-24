@@ -39,9 +39,11 @@ public class PublisherService {
         return publisherMapper.toDTO(foundPublisherModel);
     }
 
-    public Page<PublisherDto> getAll(Pageable pageable) {
-        return publisherRepository.findAll(pageable)
-                .map(publisherMapper::toDTO);
+    public List<PublisherDto> getAll() {
+        return publisherRepository.findAll()
+                .stream()
+                .map(publisherMapper::toDTO)
+                .collect(Collectors.toList());
 
     }
 

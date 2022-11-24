@@ -35,8 +35,8 @@ public class PublisherController {
 
     @GetMapping
     //Novamente, não precisa do ResponseStatus pq o get, por padrão, já retorna um código 200 ok
-    public Page<PublisherDto> findAll(Pageable pageable) {
-        return publisherService.getAll(pageable);
+    public List<PublisherDto> findAll() {
+        return publisherService.getAll();
     }
 
     @DeleteMapping("/{id}")
