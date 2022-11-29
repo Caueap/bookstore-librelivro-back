@@ -14,8 +14,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/api2/rental")
+@CrossOrigin(origins = "*")
 public class RentalController {
 
     private RentalService rentalService;

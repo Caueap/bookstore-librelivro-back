@@ -11,8 +11,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/api2/publisher")
+@CrossOrigin(origins = "*")
 public class PublisherController {
 
     private PublisherService publisherService;
