@@ -1,5 +1,6 @@
 package com.api2.bookstore.dtos.bookdto;
 
+import com.api2.bookstore.models.BookModel;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +29,8 @@ public class BookRequestDto {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate releaseDate;
 
+//    private String bookStatus;
+
     @NotBlank
     private String isbn;
 
@@ -36,5 +39,6 @@ public class BookRequestDto {
 
     @NotNull
     private Long publisherModelId;
+
 
 }

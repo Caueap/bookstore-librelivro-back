@@ -21,7 +21,9 @@ public class RentalDeliveryDto {
 
     private LocalDate deliveryDate;
 
-    //private String status;
+//    private String status;
+
+//    private String delayStatus;
 
     private BookModel bookModel;
 

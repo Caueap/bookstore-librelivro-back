@@ -15,13 +15,13 @@ public interface RentalMapper {
 
     RentalModel toModel(RentalRequestDto rentalRequestDto);
 
-    RentalModel toModel(RentalResponseDto rentalResponseDto);
+//    RentalModel toModel(RentalResponseDto rentalResponseDto);
 
     RentalModel toModel(RentalReqDelDto rentalReqDelDto);
 
-    RentalResponseDto toDTO(RentalModel rentalModel);
+//    RentalResponseDto toDTO(RentalModel rentalModel);
 
-    RentalDeliveryDto toDT(RentalModel rentalModel);
+    RentalDeliveryDto toDTO(RentalModel rentalModel);
 
 
 

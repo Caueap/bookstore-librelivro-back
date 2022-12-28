@@ -36,9 +36,11 @@ public class ClientService {
     }
 
 
-    public Page<ClientDto> getAll(Pageable pageable) {
-        return clientRepository.findAll(pageable)
-                .map(clientMapper::toDTO);
+    public List<ClientDto> getAll() {
+        return clientRepository.findAll()
+                .stream()
+                .map(clientMapper::toDTO)
+                .collect(Collectors.toList());
 
     }
 

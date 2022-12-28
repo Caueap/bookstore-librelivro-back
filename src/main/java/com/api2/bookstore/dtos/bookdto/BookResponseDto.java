@@ -2,6 +2,7 @@ package com.api2.bookstore.dtos.bookdto;
 
 import com.api2.bookstore.dtos.clientdto.ClientDto;
 import com.api2.bookstore.dtos.publisherdto.PublisherDto;
+import com.api2.bookstore.models.BookModel;
 import com.api2.bookstore.models.ClientModel;
 import com.api2.bookstore.models.PublisherModel;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -26,6 +27,8 @@ public class BookResponseDto {
 
     private LocalDate releaseDate;
 
+    private String bookStatus;
+
     private String isbn;
 
     private int amount;
@@ -33,6 +36,10 @@ public class BookResponseDto {
     private int rentedAmount;
 
     private PublisherModel publisherModel;
+
+
+
+
 
 
 }

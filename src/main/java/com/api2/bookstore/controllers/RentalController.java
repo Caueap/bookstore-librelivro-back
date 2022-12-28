@@ -26,18 +26,18 @@ public class RentalController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RentalResponseDto rent(@RequestBody @Valid RentalRequestDto rentalRequestDto) {
+    public RentalDeliveryDto rent(@RequestBody @Valid RentalRequestDto rentalRequestDto) {
         return rentalService.rent(rentalRequestDto);
     }
 
     @GetMapping("/{id}")
-    public RentalResponseDto getById(@PathVariable Long id) {
+    public RentalDeliveryDto getById(@PathVariable Long id) {
         return rentalService.getById(id);
     }
 
     @GetMapping
-    public Page<RentalResponseDto> getAll(Pageable pageable) {
-        return rentalService.getAll(pageable);
+    public List<RentalDeliveryDto> getAll() {
+        return rentalService.getAll();
     }
 
     @DeleteMapping("/{id}")

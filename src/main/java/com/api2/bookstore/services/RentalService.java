@@ -12,6 +12,7 @@ import com.api2.bookstore.models.BookModel;
 import com.api2.bookstore.models.ClientModel;
 import com.api2.bookstore.models.RentalModel;
 import com.api2.bookstore.repositories.RentalRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,6 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 
 @Service
@@ -35,35 +35,63 @@ public class RentalService {
 
     private ClientService clientService;
 
+    private ModelMapper mapper;
+
+
     @Autowired
-    public RentalService(RentalRepository rentalRepository, BookService bookService, ClientService clientService) {
+    public RentalService(RentalRepository rentalRepository, BookService bookService,
+                         ClientService clientService, ModelMapper mapper) {
         this.rentalRepository = rentalRepository;
         this.bookService = bookService;
         this.clientService = clientService;
+        this.mapper = mapper;
     }
 
-    public RentalResponseDto rent(@NotNull RentalRequestDto rentalRequestDto) {
+
+    public RentalDeliveryDto rent(@NotNull RentalRequestDto rentalRequestDto) {
         BookModel foundBook = bookService.verifyAndGetIfExists(rentalRequestDto.getBookModelId());
         ClientModel foundClient = clientService.verifyAndGetIfExists(rentalRequestDto.getClientModelId());
-        RentalModel rentalToSave = rentalMapper.toModel(rentalRequestDto);
+        RentalModel rentalToSave = mapper.map(rentalRequestDto, RentalModel.class);
         rentalToSave.setBookModel(foundBook);
         rentalToSave.setClientModel(foundClient);
+        foundBook.setBookStatus("Alugado");
         foundBook.setAmount(foundBook.getAmount() - 1);
         foundBook.setRentedAmount(foundBook.getRentedAmount() + 1);
 
+
         verifyIfItIsPossibleRent(rentalRequestDto);
         RentalModel savedRental = rentalRepository.save(rentalToSave);
-        return rentalMapper.toDTO(savedRental);
-    }
+        RentalDeliveryDto savedRentalDto = mapper.map(rentalToSave, RentalDeliveryDto.class);
+        return savedRentalDto;
 
-    public RentalResponseDto getById(Long id) {
+    }
+//    public RentalDeliveryDto rent(@NotNull RentalRequestDto rentalRequestDto) {
+//        BookModel foundBook = bookService.verifyAndGetIfExists(rentalRequestDto.getBookModelId());
+//        ClientModel foundClient = clientService.verifyAndGetIfExists(rentalRequestDto.getClientModelId());
+//        RentalModel rentalToSave = rentalMapper.toModel(rentalRequestDto);
+//        rentalToSave.setBookModel(foundBook);
+//        rentalToSave.setClientModel(foundClient);
+//        foundBook.setBookStatus("Alugado");
+//        foundBook.setAmount(foundBook.getAmount() - 1);
+//        foundBook.setRentedAmount(foundBook.getRentedAmount() + 1);
+//
+//
+//        verifyIfItIsPossibleRent(rentalRequestDto);
+//        RentalModel savedRental = rentalRepository.save(rentalToSave);
+//        return rentalMapper.toDTO(savedRental);
+//    }
+
+
+    public RentalDeliveryDto getById(Long id) {
         RentalModel foundRental = verifyAndGetRental(id);
         return rentalMapper.toDTO(foundRental);
     }
 
-    public Page<RentalResponseDto> getAll(Pageable pageable) {
-        return rentalRepository.findAll(pageable)
-                .map(rentalMapper::toDTO);
+    public List<RentalDeliveryDto> getAll() {
+        return rentalRepository.findAll()
+                .stream()
+                .map(rentalMapper::toDTO)
+                .collect(Collectors.toList());
 
     }
 
@@ -80,19 +108,40 @@ public class RentalService {
         RentalModel rentalToUpdate = rentalMapper.toModel(rentalReqDelDto);
         rentalToUpdate.setBookModel(foundBook);
         rentalToUpdate.setClientModel(foundClient);
+        foundBook.setBookStatus("Disponível");
         foundBook.setAmount(foundBook.getAmount() + 1);
         foundBook.setRentedAmount(foundBook.getRentedAmount() - 1);
 
+
+
+//        if (rentalToUpdate.getDeliveryDate().isAfter(rentalToUpdate.getExpectedDeliveryDate())) {
+//            rentalToUpdate.setDelayStatus("Entregue com atraso");
+//        } else if (rentalToUpdate.getExpectedDeliveryDate().isBefore(rentalToUpdate.getDeliveryDate())) {
+//            rentalToUpdate.setDelayStatus("Entregue no prazo");
+//        }
+
         verifyIfItIsPossibleDelivery(rentalReqDelDto);
         RentalModel updatedRental = rentalRepository.save(rentalToUpdate);
-        return rentalMapper.toDT(updatedRental);
+        return rentalMapper.toDTO(updatedRental);
     }
 
-        public RentalModel verifyAndGetRental(Long id) {
-            RentalModel foundRentalModel = rentalRepository.findById(id)
-                    .orElseThrow(() -> new RentalNotFoundException(id));
-            return foundRentalModel;
-        }
+
+//    public void verifyStatusRent(@NotNull RentalReqDelDto ) {
+//        RentalDeliveryDto rentalDeliveryDto = new RentalDeliveryDto();
+//        LocalDate foundDeliveryDate = rentalReqDelDto.getDeliveryDate();
+//        LocalDate foundExpectedDeliveryDate = rentalReqDelDto.getExpectedDeliveryDate();
+//        if (foundDeliveryDate.isBefore(foundExpectedDeliveryDate)) {
+//            rentalDeliveryDto.setDelayStatus("Entregue com atraso");
+//        } else if (foundExpectedDeliveryDate.isBefore(foundDeliveryDate)) {
+//            rentalDeliveryDto.setDelayStatus("Entregue no prazo");
+//        }
+//    }
+
+    public RentalModel verifyAndGetRental(Long id) {
+        RentalModel foundRentalModel = rentalRepository.findById(id)
+                .orElseThrow(() -> new RentalNotFoundException(id));
+        return foundRentalModel;
+    }
 
 
     private void verifyIfItIsPossibleDelivery(RentalReqDelDto rentalReqDelDto) {
@@ -103,13 +152,13 @@ public class RentalService {
         }
     }
 
-        private void verifyIfItIsPossibleRent(RentalRequestDto rentalRequestDto) {
-            LocalDate foundRentalDate = rentalRequestDto.getRentalDate();
-            LocalDate foundExpectedDeliveryDate = rentalRequestDto.getExpectedDeliveryDate();
-            if (foundExpectedDeliveryDate.isBefore(foundRentalDate)) {
-                throw new InvalidExpectedDeliveryDateException(rentalRequestDto);
-            }
+    private void verifyIfItIsPossibleRent(RentalRequestDto rentalRequestDto) {
+        LocalDate foundRentalDate = rentalRequestDto.getRentalDate();
+        LocalDate foundExpectedDeliveryDate = rentalRequestDto.getExpectedDeliveryDate();
+        if (foundExpectedDeliveryDate.isBefore(foundRentalDate)) {
+            throw new InvalidExpectedDeliveryDateException(rentalRequestDto);
         }
+    }
 
          /*private void verifyIfItsLate(@NotNull RentalModel rentalModel) {
              LocalDate foundDeliveryDate = rentalModel.getDeliveryDate();
@@ -124,10 +173,7 @@ public class RentalService {
          }*/
 
 
-
-
-
- }
+}
 
 
 

@@ -14,18 +14,21 @@ public class RentalModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate rentalDate;
 
-    @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate expectedDeliveryDate;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate deliveryDate;
 
-    private String status;
+//    @JsonFormat
+//    private String status;
+
+//    @JsonFormat
+//    private String delayStatus;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     private BookModel bookModel;

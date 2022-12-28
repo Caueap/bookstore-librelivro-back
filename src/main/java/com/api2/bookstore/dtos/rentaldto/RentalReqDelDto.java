@@ -15,17 +15,19 @@ public class RentalReqDelDto {
 
     private Long id;
 
-    @NotNull
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate rentalDate;
 
-    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate expectedDeliveryDate;
 
-    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate deliveryDate;
+
+//    private String status;
+
+//    private String delayStatus;
 
     @NotNull
     private Long bookModelId;

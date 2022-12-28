@@ -37,8 +37,8 @@ public class BookController {
     }
 
     @GetMapping
-    public Page<BookResponseDto> getAllBooks(Pageable pageable) {
-        return bookService.getAllBooks(pageable);
+    public List<BookResponseDto> getAllBooks() {
+        return bookService.getAllBooks();
     }
 
     @DeleteMapping("/{id}")
@@ -49,8 +49,8 @@ public class BookController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public BookResponseDto update(@PathVariable Long id, @RequestBody @Valid BookRequestDto bookToUpdtateDto) {
-        return bookService.update(id, bookToUpdtateDto);
+    public BookResponseDto update(@PathVariable Long id, @RequestBody @Valid BookRequestDto bookToUpdateDto) {
+        return bookService.update(id, bookToUpdateDto);
     }
 
     //Código de Henrique
