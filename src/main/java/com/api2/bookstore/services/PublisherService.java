@@ -18,37 +18,39 @@ import java.util.stream.Collectors;
 @Service
 public class PublisherService {
 
-    private final static PublisherMapper publisherMapper = PublisherMapper.INSTANCE;
+//    private final static PublisherMapper publisherMapper = PublisherMapper.INSTANCE;
 
     private PublisherRepository publisherRepository;
 
+    private ModelMapper mapper;
 
 
     @Autowired
-    public PublisherService(PublisherRepository publisherRepository) {
+    public PublisherService(PublisherRepository publisherRepository, ModelMapper mapper) {
         this.publisherRepository = publisherRepository;
+        this.mapper = mapper;
 
     }
 
-    public PublisherDto create(PublisherDto publisherDto)  {
+    public PublisherDto create(PublisherDto publisherDto) {
         verifyIfExists(publisherDto.getName());
-        PublisherModel publisherModelToCreate = publisherMapper.toModel(publisherDto); /*publisherDto sendo convertido
-        em model e sendo armazenado em publisherModelToCreate*/
+        PublisherModel publisherModelToCreate = mapper.map(publisherDto, PublisherModel.class);
         PublisherModel createdPublisherModel = publisherRepository.save(publisherModelToCreate);
-        return publisherMapper.toDTO(createdPublisherModel);
+        PublisherDto createdPublisherModelDto = mapper.map(createdPublisherModel, PublisherDto.class);
+        return createdPublisherModelDto;
     }
 
     public PublisherDto getById(Long id) {
         PublisherModel foundPublisherModel = verifyAndGetPublisher(id);
-        return publisherMapper.toDTO(foundPublisherModel);
+        PublisherDto foundPublisherModelDto = mapper.map(foundPublisherModel, PublisherDto.class);
+        return foundPublisherModelDto;
     }
 
     public List<PublisherDto> getAll() {
         return publisherRepository.findAll()
                 .stream()
-                .map(publisherMapper::toDTO)
+                .map(PublisherModel -> mapper.map(PublisherModel, PublisherDto.class))
                 .collect(Collectors.toList());
-
     }
 
     public void delete(Long id) {
@@ -59,9 +61,10 @@ public class PublisherService {
     public PublisherDto update(Long id, PublisherDto publisherToUpdateDto) {
         PublisherModel foundPublisher = verifyAndGetIfExists(id);
         publisherToUpdateDto.setId(foundPublisher.getId());
-        PublisherModel publisherToUpdate = publisherMapper.toModel(publisherToUpdateDto);
+        PublisherModel publisherToUpdate = mapper.map(publisherToUpdateDto, PublisherModel.class);
         PublisherModel updatedPublisher = publisherRepository.save(publisherToUpdate);
-        return publisherMapper.toDTO(updatedPublisher);
+        PublisherDto updatedPublisherDto = mapper.map(updatedPublisher, PublisherDto.class);
+        return updatedPublisherDto;
     }
 
 
@@ -81,7 +84,44 @@ public class PublisherService {
                 .orElseThrow(() -> new PublisherNotFoundException(id));
     }
 
-    //Código do Henrique
+//---- Código da Udemy ----------------------------------------------------------------------------------
+
+//        public PublisherDto create(PublisherDto publisherDto)  {
+//        verifyIfExists(publisherDto.getName());
+//        PublisherModel publisherModelToCreate = publisherMapper.toModel(publisherDto); /*publisherDto sendo convertido
+//        em model e sendo armazenado em publisherModelToCreate*/
+//        PublisherModel createdPublisherModel = publisherRepository.save(publisherModelToCreate);
+//        return publisherMapper.toDTO(createdPublisherModel);
+//    }
+
+//    public PublisherDto getById(Long id) {
+//        PublisherModel foundPublisherModel = verifyAndGetPublisher(id);
+//        return publisherMapper.toDTO(foundPublisherModel);
+//    }
+//
+//    public List<PublisherDto> getAll() {
+//        return publisherRepository.findAll()
+//                .stream()
+//                .map(publisherMapper::toDTO))
+//                .collect(Collectors.toList());
+//
+//    }
+
+
+
+
+//        public PublisherDto update(Long id, PublisherDto publisherToUpdateDto) {
+//        PublisherModel foundPublisher = verifyAndGetIfExists(id);
+//        publisherToUpdateDto.setId(foundPublisher.getId());
+//        PublisherModel publisherToUpdate = publisherMapper.toModel(publisherToUpdateDto);
+//        PublisherModel updatedPublisher = publisherRepository.save(publisherToUpdate);
+//        return publisherMapper.toDTO(updatedPublisher);
+//    }
+
+
+
+
+//---- Código do Henrique ---------------------------------------------------------------------------
     /*public PublisherModel verifyAndGetIfExists(Long id) {
         Optional<PublisherModel> publisherModelFind = publisherRepository.findById(id);
 
@@ -92,7 +132,7 @@ public class PublisherService {
     }*/
 
 
-
+//---- Código da Michelle -------------------------------------------------------------------------------
 
     /*@Transactional
     public PublisherModel save(PublisherModel publisherModel) {
