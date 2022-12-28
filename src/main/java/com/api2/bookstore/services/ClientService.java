@@ -7,6 +7,7 @@ import com.api2.bookstore.exception.clientexception.ClientNotFoundException;
 import com.api2.bookstore.mappers.ClientMapper;
 import com.api2.bookstore.models.ClientModel;
 import com.api2.bookstore.repositories.ClientRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,44 +20,49 @@ import java.util.stream.Collectors;
 @Service
 public class ClientService {
 
-    private final static ClientMapper clientMapper = ClientMapper.INSTANCE;
+//    private final static ClientMapper clientMapper = ClientMapper.INSTANCE;
 
     private ClientRepository clientRepository;
 
+    private ModelMapper mapper;
+
     @Autowired
-    public ClientService(ClientRepository clientRepository) {
+    public ClientService(ClientRepository clientRepository, ModelMapper mapper) {
         this.clientRepository = clientRepository;
+        this.mapper = mapper;
     }
 
     public ClientMessageDto create(ClientDto clientToCreateDto) {
         verifyIfExistsEmail(clientToCreateDto.getEmail());
-        ClientModel clientToCreate = clientMapper.toModel(clientToCreateDto);
+        ClientModel clientToCreate = mapper.map(clientToCreateDto, ClientModel.class);
         ClientModel createdClient = clientRepository.save(clientToCreate);
-        return creationMessage(createdClient);
+        return mapper.map(creationMessage(createdClient), ClientMessageDto.class);
     }
 
 
     public List<ClientDto> getAll() {
         return clientRepository.findAll()
                 .stream()
-                .map(clientMapper::toDTO)
+                .map(ClientModel -> mapper.map(ClientModel, ClientDto.class))
                 .collect(Collectors.toList());
 
     }
 
     public ClientDto getById(Long id) {
         ClientModel foundClientModel = verifyAndGetClient(id);
-        return clientMapper.toDTO(foundClientModel);
+        return mapper.map(foundClientModel, ClientDto.class);
 
     }
 
     public ClientMessageDto update(Long id, ClientDto clientToUpdateDto) {
         ClientModel foundClient = verifyAndGetIfExists(id);
         clientToUpdateDto.setId(foundClient.getId());
-        ClientModel clientToUpdate = clientMapper.toModel(clientToUpdateDto);
+        ClientModel clientToUpdate = mapper.map(clientToUpdateDto, ClientModel.class);
         ClientModel updatedClient = clientRepository.save(clientToUpdate);
-        return updateMessage(updatedClient);
+        return mapper.map(updateMessage(updatedClient), ClientMessageDto.class);
     }
+
+
 
     public void delete(Long id) {
         verifyAndGetIfExists(id);
@@ -107,8 +113,45 @@ public class ClientService {
                 .orElseThrow(() -> new ClientNotFoundException(name));
     }
 
+//---- Código da Udemy --------------------------------------------------------------------------------
 
 
+//        public ClientMessageDto create(ClientDto clientToCreateDto) {
+//        verifyIfExistsEmail(clientToCreateDto.getEmail());
+//        ClientModel clientToCreate = clientMapper.toModel(clientToCreateDto);
+//        ClientModel createdClient = clientRepository.save(clientToCreate);
+//        return creationMessage(createdClient);
+//    }
+
+//    public List<ClientDto> getAll() {
+//        return clientRepository.findAll()
+//                .stream()
+//                .map(clientMapper::toDTO)
+//                .collect(Collectors.toList());
+//
+//    }
+//
+//    public ClientDto getById(Long id) {
+//        ClientModel foundClientModel = verifyAndGetClient(id);
+//        return clientMapper.toDTO(foundClientModel);
+//
+//    }
+
+//        public ClientMessageDto update(Long id, ClientDto clientToUpdateDto) {
+//        ClientModel foundClient = verifyAndGetIfExists(id);
+//        clientToUpdateDto.setId(foundClient.getId());
+//        ClientModel clientToUpdate = clientMapper.toModel(clientToUpdateDto);
+//        ClientModel updatedClient = clientRepository.save(clientToUpdate);
+//        return updateMessage(updatedClient);
+//    }
+
+//    public void delete(Long id) {
+//        verifyAndGetIfExists(id);
+//        clientRepository.deleteById(id);
+//    }
+
+
+//---- Código da Michelle ----------------------------------------------------------------------------------
 
     /*@Transactional
     public ClientModel save(ClientModel clientModel) {
