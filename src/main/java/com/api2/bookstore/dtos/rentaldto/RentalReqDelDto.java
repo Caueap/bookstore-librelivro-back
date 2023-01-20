@@ -15,19 +15,24 @@ public class RentalReqDelDto {
 
     private Long id;
 
+    /*rentalDate e expectedDeliveryDate estão sendo associados com o "item" no edit do front. Por isso
+    o JsonFormat
+     */
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate rentalDate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate expectedDeliveryDate;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate deliveryDate;
 
 //    private String status;
 
 //    private String delayStatus;
+    
 
     @NotNull
     private Long bookModelId;

@@ -25,6 +25,8 @@ public class RentalResponseDto {
 
     private LocalDate expectedDeliveryDate;
 
+    private LocalDate deliveryDate;
+
     private BookModel bookModel;
 
     private ClientModel clientModel;

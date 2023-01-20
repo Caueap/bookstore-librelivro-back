@@ -23,15 +23,14 @@ public class BookModel {
     private String author;
 
     @Column(nullable = false)
-    @JsonFormat(pattern = "dd/MM/yyyy")
+//    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate releaseDate;
 
-    @Column
-    private String bookStatus;
+//    @Column
+//    private String bookStatus;
 
 
-    @Column(nullable = false, unique = true)
-    private String isbn;
+
 
     @Column(nullable = false)
     private int amount;

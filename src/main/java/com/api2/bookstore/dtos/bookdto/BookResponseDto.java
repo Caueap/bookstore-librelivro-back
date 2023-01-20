@@ -25,15 +25,16 @@ public class BookResponseDto {
 
     private String author;
 
+//    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate releaseDate;
 
-    private String bookStatus;
+//    private String bookStatus;
 
-    private String isbn;
 
     private int amount;
 
     private int rentedAmount;
+    
 
     private PublisherModel publisherModel;
 

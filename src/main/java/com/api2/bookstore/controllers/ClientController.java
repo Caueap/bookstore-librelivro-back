@@ -1,11 +1,9 @@
 package com.api2.bookstore.controllers;
 
 import com.api2.bookstore.dtos.clientdto.ClientDto;
-import com.api2.bookstore.dtos.clientdto.ClientMessageDto;
+import com.api2.bookstore.dtos.clientdto.ClientResponseDto;
 import com.api2.bookstore.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,12 +24,12 @@ public class ClientController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ClientMessageDto create(@RequestBody @Valid ClientDto clientToCreateDto) {
+    public ClientResponseDto create(@RequestBody @Valid ClientDto clientToCreateDto) {
         return clientService.create(clientToCreateDto);
     }
 
     @GetMapping
-    public List<ClientDto> getAll() {
+    public List<ClientResponseDto> getAll() {
         return clientService.getAll();
     }
 
@@ -47,7 +45,7 @@ public class ClientController {
     }
 
     @PutMapping("/{id}")
-    public ClientMessageDto update(@PathVariable Long id, @RequestBody @Valid ClientDto clientToUpdateDto) {
+    public ClientResponseDto update(@PathVariable Long id, @RequestBody @Valid ClientDto clientToUpdateDto) {
         return clientService.update(id, clientToUpdateDto);
     }
 

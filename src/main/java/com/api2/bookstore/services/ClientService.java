@@ -1,16 +1,14 @@
 package com.api2.bookstore.services;
 
 import com.api2.bookstore.dtos.clientdto.ClientDto;
-import com.api2.bookstore.dtos.clientdto.ClientMessageDto;
+import com.api2.bookstore.dtos.clientdto.ClientResponseDto;
 import com.api2.bookstore.exception.clientexception.ClientAlreadyExistsException;
 import com.api2.bookstore.exception.clientexception.ClientNotFoundException;
-import com.api2.bookstore.mappers.ClientMapper;
+import com.api2.bookstore.exception.clientexception.ClientSituationException;
 import com.api2.bookstore.models.ClientModel;
 import com.api2.bookstore.repositories.ClientRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,18 +30,18 @@ public class ClientService {
         this.mapper = mapper;
     }
 
-    public ClientMessageDto create(ClientDto clientToCreateDto) {
+    public ClientResponseDto create(ClientDto clientToCreateDto) {
         verifyIfExistsEmail(clientToCreateDto.getEmail());
         ClientModel clientToCreate = mapper.map(clientToCreateDto, ClientModel.class);
         ClientModel createdClient = clientRepository.save(clientToCreate);
-        return mapper.map(creationMessage(createdClient), ClientMessageDto.class);
+        return mapper.map(createdClient, ClientResponseDto.class);
     }
 
 
-    public List<ClientDto> getAll() {
+    public List<ClientResponseDto> getAll() {
         return clientRepository.findAll()
                 .stream()
-                .map(ClientModel -> mapper.map(ClientModel, ClientDto.class))
+                .map(ClientModel -> mapper.map(ClientModel, ClientResponseDto.class))
                 .collect(Collectors.toList());
 
     }
@@ -54,14 +52,21 @@ public class ClientService {
 
     }
 
-    public ClientMessageDto update(Long id, ClientDto clientToUpdateDto) {
+    public ClientResponseDto update(Long id, ClientDto clientToUpdateDto) {
         ClientModel foundClient = verifyAndGetIfExists(id);
+        verifyClientSituation(foundClient);
         clientToUpdateDto.setId(foundClient.getId());
         ClientModel clientToUpdate = mapper.map(clientToUpdateDto, ClientModel.class);
         ClientModel updatedClient = clientRepository.save(clientToUpdate);
-        return mapper.map(updateMessage(updatedClient), ClientMessageDto.class);
+        return mapper.map(updatedClient, ClientResponseDto.class);
+
     }
 
+    private void verifyClientSituation(ClientModel foundClient) {
+        if (foundClient.getSituation() == 1) {
+            throw new ClientSituationException();
+        }
+    }
 
 
     public void delete(Long id) {
@@ -69,9 +74,10 @@ public class ClientService {
         clientRepository.deleteById(id);
     }
 
+
     public ClientModel verifyAndGetIfExists(Long id) {
         return clientRepository.findById(id)
-                        .orElseThrow(() -> new ClientNotFoundException(id));
+                .orElseThrow(() -> new ClientNotFoundException(id));
     }
 
     private void verifyIfExistsEmail(String email) {
@@ -79,26 +85,6 @@ public class ClientService {
         if (foundClient.isPresent()) {
             throw new ClientAlreadyExistsException(email);
         }
-    }
-
-    private ClientMessageDto creationMessage(ClientModel createdClient) {
-        String createdClientName = createdClient.getName();
-        Long createdClientId = createdClient.getId();
-        String createdClientMessage = String.format("User %s with ID %s successfully created", createdClientName, createdClientId);
-        return ClientMessageDto
-                .builder()
-                .message(createdClientMessage)
-                .build();
-    }
-
-    private ClientMessageDto updateMessage(ClientModel updatedClient) {
-        String createdClientName = updatedClient.getName();
-        Long createdClientId = updatedClient.getId();
-        String createdClientMessage = String.format("User %s with ID %s successfully updated", createdClientName, createdClientId);
-        return ClientMessageDto
-                .builder()
-                .message(createdClientMessage)
-                .build();
     }
 
 
@@ -148,6 +134,26 @@ public class ClientService {
 //    public void delete(Long id) {
 //        verifyAndGetIfExists(id);
 //        clientRepository.deleteById(id);
+//    }
+
+//    private ClientResponseDto creationMessage(ClientModel createdClient) {
+//        String createdClientName = createdClient.getName();
+//        Long createdClientId = createdClient.getId();
+//        String createdClientMessage = String.format("User %s with ID %s successfully created", createdClientName, createdClientId);
+//        return ClientResponseDto
+//                .builder()
+//                .message(createdClientMessage)
+//                .build();
+//    }
+//
+//    private ClientResponseDto updateMessage(ClientModel updatedClient) {
+//        String createdClientName = updatedClient.getName();
+//        Long createdClientId = updatedClient.getId();
+//        String createdClientMessage = String.format("User %s with ID %s successfully updated", createdClientName, createdClientId);
+//        return ClientResponseDto
+//                .builder()
+//                .message(createdClientMessage)
+//                .build();
 //    }
 
 

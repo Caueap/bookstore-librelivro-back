@@ -1,7 +1,11 @@
 package com.api2.bookstore.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import net.bytebuddy.asm.Advice;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -10,25 +14,32 @@ import java.time.LocalDate;
 @Entity(name = "TB_RENTAL")
 public class RentalModel {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @Column
     private LocalDate rentalDate;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
+
+    @Column
     private LocalDate expectedDeliveryDate;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @Column
     private LocalDate deliveryDate;
 
-//    @JsonFormat
-//    private String status;
+    @Column
+    private String status;
 
 //    @JsonFormat
 //    private String delayStatus;
+
+//    @Column
+//    private Long value;
+
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     private BookModel bookModel;

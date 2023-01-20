@@ -71,7 +71,7 @@ public class BookService {
     public BookResponseDto update(Long id, BookRequestDto bookToUpdateDto) {
         PublisherModel foundPublisher = publisherService.verifyAndGetIfExists(bookToUpdateDto.getPublisherModelId());
         BookModel foundBookModel = verifyAndGetIfExists(id);
-        verifyUpdatePossibility(foundBookModel);
+//        verifyUpdatePossibility(foundBookModel);
 
         bookToUpdateDto.setId(foundBookModel.getId());
         BookModel bookToUpdate = mapper.map(bookToUpdateDto, BookModel.class);
@@ -82,11 +82,11 @@ public class BookService {
 
     }
 
-    private void verifyUpdatePossibility(BookModel foundBookModel) {
-        if (foundBookModel.getBookStatus().equals("Alugado")) {
-            throw new RentedBookException(foundBookModel);
-        }
-    }
+//    private void verifyUpdatePossibility(BookModel foundBookModel) {
+//        if (foundBookModel.getBookStatus().equals("Alugado")) {
+//            throw new RentedBookException(foundBookModel);
+//        }
+//    }
 
 
     public BookModel verifyAndGetIfExists(Long id) {

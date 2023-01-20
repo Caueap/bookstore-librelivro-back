@@ -18,15 +18,16 @@ public class ClientModel {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private int age;
+//    @Column(nullable = false)
+//    private int age;
 
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(nullable = false)
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate birthDate;
+    
+//    @JsonFormat(pattern = "dd/MM/yyyy")
+//    @Column(nullable = false)
+//    private LocalDate birthDate;
 
     @Column(nullable = false)
     private String city;
@@ -34,9 +35,8 @@ public class ClientModel {
     @Column(nullable = false)
     private String address;
 
-
-
-
+    @Column
+    private int situation;
 
 
 }

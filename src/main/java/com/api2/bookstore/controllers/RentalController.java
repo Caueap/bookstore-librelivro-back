@@ -40,6 +40,7 @@ public class RentalController {
         return rentalService.getAll();
     }
 
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {

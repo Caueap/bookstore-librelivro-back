@@ -22,14 +22,17 @@ public class RentalRequestDto {
     private Long id;
 
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate rentalDate;
 
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate expectedDeliveryDate;
 
-    private String status;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+//    private LocalDate deliveryDate;
+
+//    private String status;
 
 //    private String delayStatus;
 
