@@ -41,6 +41,11 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
+    @GetMapping("/mostRented")
+    public List<BookResponseDto> getMostRentedBooks() {
+        return bookService.getMostRentedBooks();
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {

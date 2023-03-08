@@ -12,6 +12,7 @@ import net.bytebuddy.implementation.bytecode.Throw;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,7 @@ public class BookService {
         PublisherModel foundPublisher = publisherService.verifyAndGetIfExists(bookRequestDto.getPublisherModelId());
         BookModel bookToSave = mapper.map(bookRequestDto, BookModel.class);
         bookToSave.setPublisherModel(foundPublisher);
+//        foundPublisher.setRegisteredBooksAmount(foundPublisher.getRegisteredBooksAmount() + 1);
         BookModel savedBook = bookRepository.save(bookToSave);
         BookResponseDto savedBookDto = mapper.map(savedBook, BookResponseDto.class);
         return savedBookDto;
@@ -56,6 +58,18 @@ public class BookService {
                 .map(BookModel -> mapper.map(BookModel, BookResponseDto.class))
                 .collect(Collectors.toList());
     }
+
+
+
+    public List<BookResponseDto> getMostRentedBooks() {
+        return bookRepository.findMostRented()
+                .stream()
+                .map(BookModel -> mapper.map(BookModel, BookResponseDto.class))
+                .collect(Collectors.toList());
+    }
+
+
+
 
         public BookResponseDto getById(Long id) {
         BookModel foundBookModel = verifyAndGetIfExists(id);

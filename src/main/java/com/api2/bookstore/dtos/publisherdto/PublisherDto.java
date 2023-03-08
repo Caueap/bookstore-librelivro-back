@@ -21,4 +21,6 @@ public class PublisherDto {
     @NotBlank
     private String city;
 
+//    private int registeredBooksAmount;
+
 }
