@@ -17,7 +17,7 @@ public interface PublisherRepository extends JpaRepository<PublisherModel, Long>
 
     /*public boolean existsByName(String name);*/
 
-    @Query("SELECT p FROM PublisherModel p ORDER BY b.rentedAmount DESC")
+    @Query("SELECT p FROM PublisherModel p WHERE p.id IN (SELECT b.publisherModel.id FROM BookModel b GROUP BY b.publisherModel.id ORDER BY COUNT(b) DESC)")
     List<PublisherModel> findPublisherWithMoreBooks();
 
 }

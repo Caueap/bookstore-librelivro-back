@@ -39,6 +39,11 @@ public class PublisherController {
         return publisherService.getAll();
     }
 
+    @GetMapping("/mostBooks")
+    public List<PublisherDto> findPublisherWithMoreBooks() {
+        return publisherService.getPublisherWithMoreBooks();
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {

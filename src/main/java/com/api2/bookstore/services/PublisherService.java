@@ -53,6 +53,13 @@ public class PublisherService {
                 .collect(Collectors.toList());
     }
 
+    public List<PublisherDto> getPublisherWithMoreBooks() {
+        return publisherRepository.findPublisherWithMoreBooks()
+                .stream()
+                .map(PublisherModel -> mapper.map(PublisherModel, PublisherDto.class))
+                .collect(Collectors.toList());
+    }
+
     public void delete(Long id) {
         verifyAndGetPublisher(id);
         publisherRepository.deleteById(id);
