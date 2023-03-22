@@ -59,6 +59,13 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
+    public List<BookResponseDto> getAvailableBooks() {
+        return bookRepository.findAvalilableBooks()
+                .stream()
+                .map(BookModel -> mapper.map(BookModel, BookResponseDto.class))
+                .collect(Collectors.toList());
+    }
+
 
 
     public List<BookResponseDto> getMostRentedBooks() {

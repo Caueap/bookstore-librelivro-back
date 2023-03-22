@@ -19,5 +19,10 @@ public interface BookRepository extends JpaRepository<BookModel, Long> {
     @Query("SELECT b FROM BookModel b ORDER BY b.rentedAmount DESC")
     List<BookModel> findMostRented();
 
+    @Query("SELECT b from BookModel b where b.amount > 0")
+    List<BookModel> findAvalilableBooks();
+
+
+
 
 }

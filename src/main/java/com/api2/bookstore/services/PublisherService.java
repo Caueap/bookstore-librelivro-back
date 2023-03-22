@@ -3,13 +3,10 @@ package com.api2.bookstore.services;
 import com.api2.bookstore.dtos.publisherdto.PublisherDto;
 import com.api2.bookstore.exception.publexception.PublisherAlreadyExistsException;
 import com.api2.bookstore.exception.publexception.PublisherNotFoundException;
-import com.api2.bookstore.mappers.PublisherMapper;
 import com.api2.bookstore.models.PublisherModel;
 import com.api2.bookstore.repositories.PublisherRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,6 +56,8 @@ public class PublisherService {
                 .map(PublisherModel -> mapper.map(PublisherModel, PublisherDto.class))
                 .collect(Collectors.toList());
     }
+
+
 
     public void delete(Long id) {
         verifyAndGetPublisher(id);

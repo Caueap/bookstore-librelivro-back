@@ -20,6 +20,7 @@ public class PublisherModel {
     @Column(nullable = false)
     private String city;
 
+
 //    @Column
 //    private int registeredBooksAmount;
 

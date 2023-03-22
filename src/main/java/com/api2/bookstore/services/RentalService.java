@@ -93,6 +93,7 @@ public class RentalService {
 
     }
 
+
     public void delete(Long id) {
         verifyAndGetRental(id);
         //Esse código fazia parte do método rentedBookDeletionValidation

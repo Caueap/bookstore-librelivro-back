@@ -2,8 +2,6 @@ package com.api2.bookstore.controllers;
 
 import com.api2.bookstore.dtos.publisherdto.PublisherDto;
 import com.api2.bookstore.services.PublisherService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
