@@ -6,6 +6,6 @@ import javax.persistence.PersistenceException;
 
 public class InvalidExpectedDeliveryDateException extends PersistenceException {
     public InvalidExpectedDeliveryDateException(RentalRequestDto rentalRequestDto) {
-        super(String.format("Invalid expected delivery date"));
+        super(String.format("Data esperada de devolução inválida"));
     }
 }
