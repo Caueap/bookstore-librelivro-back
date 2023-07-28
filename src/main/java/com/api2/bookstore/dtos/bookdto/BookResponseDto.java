@@ -25,7 +25,7 @@ public class BookResponseDto {
 
     private String author;
 
-//    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate releaseDate;
 
 //    private String bookStatus;

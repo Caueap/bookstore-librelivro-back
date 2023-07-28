@@ -17,13 +17,13 @@ public class RentalDeliveryDto {
 
     private Long id;
 
-//    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate rentalDate;
 
-//    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate expectedDeliveryDate;
 
-//    @JsonFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate deliveryDate;
 
     private String status;
