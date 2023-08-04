@@ -3,9 +3,12 @@ package com.api2.bookstore.services;
 import com.api2.bookstore.dtos.bookdto.BookRequestDto;
 import com.api2.bookstore.dtos.bookdto.BookResponseDto;
 import com.api2.bookstore.exception.bookexception.BookNotFoundException;
+import com.api2.bookstore.exception.bookexception.BookSituationException;
 import com.api2.bookstore.exception.bookexception.RentedBookException;
+import com.api2.bookstore.exception.clientexception.ClientSituationException;
 import com.api2.bookstore.mappers.BookMapper;
 import com.api2.bookstore.models.BookModel;
+import com.api2.bookstore.models.ClientModel;
 import com.api2.bookstore.models.PublisherModel;
 import com.api2.bookstore.repositories.BookRepository;
 import net.bytebuddy.implementation.bytecode.Throw;
@@ -93,7 +96,7 @@ public class BookService {
         PublisherModel foundPublisher = publisherService.verifyAndGetIfExists(bookToUpdateDto.getPublisherModelId());
         BookModel foundBookModel = verifyAndGetIfExists(id);
 //        verifyUpdatePossibility(foundBookModel);
-
+        verifyBookSituation(foundBookModel);
         bookToUpdateDto.setId(foundBookModel.getId());
         BookModel bookToUpdate = mapper.map(bookToUpdateDto, BookModel.class);
         bookToUpdate.setPublisherModel(foundPublisher);
@@ -114,6 +117,12 @@ public class BookService {
         BookModel foundBookModel = bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
         return foundBookModel;
+    }
+
+    private void verifyBookSituation(BookModel foundBookModel) {
+        if (foundBookModel.getSituation() == 1) {
+            throw new BookSituationException();
+        }
     }
 
 

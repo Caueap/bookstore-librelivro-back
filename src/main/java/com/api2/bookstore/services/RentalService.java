@@ -61,7 +61,7 @@ public class RentalService {
         rentalToSave.setStatus("Pendente");
         verifyAmount(foundBook);
         foundClient.setSituation(1);
-
+        foundBook.setSituation(1);
 
         verifyIfItIsPossibleRent(rentalRequestDto);
         RentalModel savedRental = rentalRepository.save(rentalToSave);
@@ -131,6 +131,7 @@ public class RentalService {
 //        foundRental.setValue(foundRental.getId());
 //        rentedBookDeletionValidation(foundRental);
         foundClient.setSituation(0);
+        foundBook.setSituation(0);
 
        
         verifyIfItIsPossibleDelivery(rentalReqDelDto);

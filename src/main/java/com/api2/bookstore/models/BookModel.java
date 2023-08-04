@@ -29,7 +29,8 @@ public class BookModel {
 //    @Column
 //    private String bookStatus;
 
-
+    @Column
+    private int situation;
 
 
     @Column(nullable = false)
